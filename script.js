@@ -26,21 +26,25 @@ document.addEventListener('DOMContentLoaded', () => {
         alert("Modo desktop detectado, botão de captura oculto");
     }
 
-    captureBtn.addEventListener('click', async () => {
-        alert("Botão de captura clicado");
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: { ideal: "environment" } }
-            });
-            video.style.display = 'block';
-            snapBtn.style.display = 'block';
-            video.srcObject = stream;
-            alert("Câmera traseira ativada");
-        } catch (err) {
-            console.error("Erro ao acessar a câmera traseira:", err);
-            alert("Erro ao acessar a câmera traseira: " + err.message);
-        }
-    });
+   captureBtn.addEventListener('click', async () => {
+    alert("Botão de captura clicado");
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: { ideal: "environment" },
+                advanced: [{ focusMode: "continuous" }] // Tenta habilitar o foco contínuo
+            }
+        });
+        video.style.display = 'block';
+        snapBtn.style.display = 'block';
+        video.srcObject = stream;
+        alert("Câmera traseira ativada com foco contínuo");
+    } catch (err) {
+        console.error("Erro ao acessar a câmera traseira:", err);
+        alert("Erro ao acessar a câmera traseira: " + err.message);
+    }
+});
+
 
    snapBtn.addEventListener('click', () => {
     alert("Botão de tirar foto clicado");
