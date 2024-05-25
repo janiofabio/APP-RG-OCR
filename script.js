@@ -42,21 +42,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    snapBtn.addEventListener('click', () => {
-        alert("Botão de tirar foto clicado");
-        const context = canvas.getContext('2d');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-        video.style.display = 'none';
-        snapBtn.style.display = 'none';
-        capturedImage.style.display = 'block';
-        capturedImage.src = canvas.toDataURL('image/jpeg');
-        imageBase64 = capturedImage.src.split(',')[1];
-        canvas.style.display = 'none';
-        alert("Foto capturada e exibida");
-        fileInput.value = ''; // Limpa o arquivo selecionado anteriormente
-    });
+snapBtn.addEventListener('click', () => {
+    alert("Botão de tirar foto clicado");
+    const context = canvas.getContext('2d');
+    const videoWidth = video.videoWidth;
+    const videoHeight = video.videoHeight;
+
+    // Ajuste do tamanho do canvas para manter a proporção da imagem
+    const maxCanvasWidth = window.innerWidth * 0.8; // 80% da largura da janela
+    const aspectRatio = videoWidth / videoHeight;
+    let canvasWidth = maxCanvasWidth;
+    let canvasHeight = maxCanvasWidth / aspectRatio;
+
+    if (canvasHeight > window.innerHeight) {
+        canvasHeight = window.innerHeight * 0.8; // 80% da altura da janela
+        canvasWidth = canvasHeight * aspectRatio;
+    }
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    context.drawImage(video, 0, 0, videoWidth, videoHeight, 0, 0, canvasWidth, canvasHeight);
+    video.style.display = 'none';
+    snapBtn.style.display = 'none';
+    capturedImage.style.display = 'block';
+    capturedImage.src = canvas.toDataURL('image/jpeg');
+    imageBase64 = capturedImage.src.split(',')[1];
+    canvas.style.display = 'none';
+    alert("Foto capturada e exibida");
+    fileInput.value = ''; // Limpa o arquivo selecionado anteriormente
+});
+
 
     btn.addEventListener('click', () => {
         alert("Botão de gerar OCR clicado");
