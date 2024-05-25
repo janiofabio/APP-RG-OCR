@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alert("Modo desktop detectado, botão de captura oculto");
     }
 
-   captureBtn.addEventListener('click', async () => {
+    captureBtn.addEventListener('click', async () => {
     alert("Botão de captura clicado");
     try {
         const stream = await navigator.mediaDevices.getUserMedia({
