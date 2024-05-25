@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-snapBtn.addEventListener('click', () => {
+    snapBtn.addEventListener('click', () => {
     alert("Botão de tirar foto clicado");
     const context = canvas.getContext('2d');
     const videoWidth = video.videoWidth;
@@ -58,6 +58,21 @@ snapBtn.addEventListener('click', () => {
         canvasHeight = window.innerHeight * 0.8; // 80% da altura da janela
         canvasWidth = canvasHeight * aspectRatio;
     }
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    context.drawImage(video, 0, 0, videoWidth, videoHeight, 0, 0, canvasWidth, canvasHeight);
+    video.style.display = 'none';
+    snapBtn.style.display = 'none';
+    capturedImage.style.display = 'block';
+    capturedImage.src = canvas.toDataURL('image/jpeg');
+    imageBase64 = capturedImage.src.split(',')[1];
+    canvas.style.display = 'none';
+    alert("Foto capturada e exibida");
+    fileInput.value = ''; // Limpa o arquivo selecionado anteriormente
+});
+
 
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
